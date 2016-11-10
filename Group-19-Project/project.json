@@ -1,0 +1,17 @@
+{
+    "title":"ChildTracker Companion",
+    "description":"This template can be used to create a basic KinomaJS application .",
+    "id":"group19.project.kinoma.marvell.com",
+    "tags":[
+        "group19"
+    ],
+    "Create":{
+        "main":"main"
+    },
+    "Element":{
+        "main":"main"
+    },
+    "iap140": {
+    	"main": "main"
+    }
+}
