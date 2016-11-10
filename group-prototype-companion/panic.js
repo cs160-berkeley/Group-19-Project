@@ -31,7 +31,7 @@ export var PanicScreen = Column.template($ => ({
 						}
 					},
 					contents: [
-						new Picture({top: 0, left: 0, height: 81, width: 81, url: "assets/Directions.png"})
+						new Picture({top: 0, left: 0, height: 81, width: 81, url: "assets/directions.png"})
 					]
 				}),
 				
