@@ -1,21 +1,7 @@
-/*
- *     Copyright (C) 2010-2016 Marvell International Ltd.
- *     Copyright (C) 2002-2010 Kinoma, Inc.
- *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
- */
+
 import { HeaderWithBack, SCREEN_WIDTH, SCREEN_HEIGHT, whiteSkin, pressButtonSkin } from 'config';
 import { PressButton, PressButtonBehavior } from 'pressButton';
+import { GoogleMapCenteredView, getLocationString } from 'map';
 
 //style
 let backgroundSkin = new Skin({ fill: "#ffffff"});
@@ -36,13 +22,13 @@ var waterborderedSkin = new Skin({
 
 let textStyle = new Style({ font: "16px", color: "white" });
 let titleStyle = new Style({ font: "bold 20px", color: "white" });
-let blackStyle = new Style({ font: "14px", color: "black" });
+let blackStyle = new Style({ font: "16px", color: "black" });
 let lg_blackStyle = new Style({ font: "bold 16px", color: "black" });
 //variable
 
 let DetailsPane = Container.template($ => ({
   name: 'detailsPane',
-  left: 0, right: 0, top: 0, height: 70, skin: whiteSkin,
+  left: 0, right: 0, top: 8, height: 70, skin: whiteSkin,
   contents: [
     new Picture({top: 0, left: 20, width: 70, height: 70, url: $.childImage}),
     new Line({
@@ -81,7 +67,7 @@ let DetailsPane = Container.template($ => ({
 }));
 
 let ActivityPane = Column.template($ => ({
-    top: 50, left: 0, right: 0, bottom: 0, skin: backgroundSkin,
+    top: 20, left: 0, right: 0, bottom: 0, skin: backgroundSkin,
     active: true, state: 0,
     contents: [
       new Label({ left: 0, right: 0, top: 0, bottom: 0, string: "Recent Activity" , style:lg_blackStyle }),
@@ -122,24 +108,26 @@ let DirectionsButton = Container.template($ => ({
     }
   })
 }));
-//layout
+
 export var DetailScreen = Column.template($ => ({
     top: 0, bottom: 0, left: 0, right: 0, skin: backgroundSkin,
     active: true, state: 0,
     contents: [
         new HeaderWithBack({
-          title: $.childName
+            title: $.childName + "\'s Activity" , transitionBack: true
         }),
-        new Picture({top: -20, width: SCREEN_WIDTH , url: $.mapImage}),
+        new GoogleMapCenteredView({
+            width: SCREEN_WIDTH, height: SCREEN_HEIGHT * 0.45, childIndex: $.childIndex,
+            mapParams: {
+                maptype: "roadmap",
+                zoom: 16
+            }
+        }),
         new DetailsPane({
-          childName: $.childName,
-          childImage: $.childImage
+            childName: $.childName,
+            childImage: $.childImage
         }),
         new ActivityPane(),
-    ],
-    behavior: Behavior({
-
-    }),
+    ]
 }));
 
-//application.add(new MainContainer());
