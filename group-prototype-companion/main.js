@@ -139,9 +139,9 @@ class AppBehavior extends Behavior {
                         remotePins.repeat("/detach/read", 200, value => {
                             if (value == 1) {
                                 if (!detach) {
-                                    behavior.moveScreenForward(new DetailScreen({
-                                        childName: "Emily",
-                                        childImage: "assets/enki.png"
+                                    behavior.moveScreenForward(new DetachScreen({
+                                        childName: "John",
+                                        childImage: "assets/isaac.png"
                                     }));
                                 }
                                 detach = true;
