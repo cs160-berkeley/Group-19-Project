@@ -456,11 +456,6 @@ export var GoogleMapCenteredView = Container.template(params => ({
 				var marker = new Container({
 					top: params.height * 0.5 - (BUBBLE_DIMENSIONS + 8), left: params.width * 0.5 - BUBBLE_DIMENSIONS * 0.5,
 					height: BUBBLE_DIMENSIONS + 12, width: BUBBLE_DIMENSIONS,
-					skin: new Skin({
-						fill: "transparent",
-						borders: {top: 2, left: 2, right: 2, bottom: 2},
-						stroke: "orange"
-					}),
 					contents: [
 						new Picture({
 							name: "shadow",
