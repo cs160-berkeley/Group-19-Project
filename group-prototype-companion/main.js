@@ -5,6 +5,7 @@ import { EnterCodeScreen } from 'addEnterCode';
 import { Push } from 'transition';
 import { DetailScreen } from 'detailScreen';
 import { SearchingAnimationScreen } from 'addSearchingAnimation';
+import { DetachScreen } from 'detach';
 
 import Pins from 'pins';
 
@@ -138,10 +139,12 @@ class AppBehavior extends Behavior {
                         remotePins.repeat("/detach/read", 200, value => {
                             if (value == 1) {
                                 if (!detach) {
-                                    behavior.moveScreenForward(new PanicScreen({
-
+                                    behavior.moveScreenForward(new DetailScreen({
+                                        childName: "Emily",
+                                        childImage: "assets/enki.png"
                                     }));
                                 }
+                                detach = true;
                             }
                         });
 
@@ -249,6 +252,11 @@ class AppBehavior extends Behavior {
     
     onPanic(application) {
 		remotePins.invoke("/panic/write", 0);
+        this.moveScreenBack();
+    }
+
+    onStopDetach() {
+        detach = false;
         this.moveScreenBack();
     }
     
