@@ -111,8 +111,8 @@ class AppBehavior extends Behavior {
                             if (value == 1) {
                                 if (!panic) {
                                     behavior.moveScreenForward(new PanicScreen({
-                                        childName: "Emily",
-                                        childImage: "assets/enki.png"
+                                        childName: "John",
+                                        childImage: "assets/isaac.png"
         
                                     }));
                                     panic = true;
