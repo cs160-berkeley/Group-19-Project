@@ -20,7 +20,7 @@ export var SelectDeviceScreen = Column.template($ => ({
     },
     contents: [
         new HeaderWithBack({
-        	title: "Add Children", transitionBack: true,
+        	title: "Pair New Device", transitionBack: true,
         }),
         new Line({
 			top: 0, height: 64, width: SCREEN_WIDTH, skin: greySkin,
@@ -29,11 +29,12 @@ export var SelectDeviceScreen = Column.template($ => ({
 	 			
 	 			new PressButton({
 		          	top: 13, right: 20, height: 38, width: 72,
-	        		upSkin: greySkin,
+	        		upSkin: whiteSkin,
 	        		downSkin: whiteSkin,
 	        		Behavior: class extends PressButtonBehavior {
 			            onTap() {
 			              	application.behavior.moveScreenForwardTransition(new SearchingAnimationScreen({}));
+			              	//application.behavior.moveScreenForward(new SearchingAnimationScreen({}));
 			            }
 		          	},
 		        	contents: [

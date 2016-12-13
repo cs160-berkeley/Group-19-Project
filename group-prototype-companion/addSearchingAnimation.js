@@ -88,7 +88,7 @@ export var SearchingAnimationScreen = Container.template($ => ({
     skin: greySkin,
     contents: [
         new HeaderWithBack({
-            title: "Add Children"
+            title: "Pair New Device"
         }),
         //new LayerExample({ top: 60, left: 110, behavior: rotationLayerBehavior }),
         new AnimateContainer(),

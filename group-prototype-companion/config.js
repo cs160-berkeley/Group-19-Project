@@ -6,6 +6,8 @@ export var APP_TITLE = "Child Tracker";
 export var SCREEN_HEIGHT = 1136 / 2;
 export var SCREEN_WIDTH = 640 / 2;
 
+export var greyBackground = new Skin({ fill: "#F4F4F4" });
+
 // Solid colors application wide
 export var redSkin = new Skin({ fill : "#BC2F2F" });
 export var whiteSkin = new Skin({ fill : "white" });
@@ -36,6 +38,7 @@ export var HeaderWithBack = Line.template($ => ({
                         //application.behavior.onConnect();
                         //debugger;
                         application.behavior.moveScreenBackTransition();
+                        //application.behavior.moveScreenBack();
                     }
                 };
             } else {
@@ -120,6 +123,7 @@ var addButton = new PressButton({
         onTap() {
             trace(application.behavior.screenHistory.length + "\n");
             application.behavior.moveScreenForwardTransition(new SelectDeviceScreen({}));
+            //application.behavior.moveScreenForward(new SelectDeviceScreen({}));
         }
     },
     contents: [

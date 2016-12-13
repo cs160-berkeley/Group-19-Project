@@ -1,5 +1,5 @@
 
-import { HeaderWithBack, SCREEN_WIDTH, SCREEN_HEIGHT, whiteSkin, pressButtonSkin } from 'config';
+import { HeaderWithBack, SCREEN_WIDTH, SCREEN_HEIGHT, whiteSkin, pressButtonSkin, greyBackground } from 'config';
 import { PressButton, PressButtonBehavior } from 'pressButton';
 import { GoogleMapCenteredView, getLocationString } from 'map';
 
@@ -28,7 +28,7 @@ let lg_blackStyle = new Style({ font: "bold 16px", color: "black" });
 
 let DetailsPane = Container.template($ => ({
   name: 'detailsPane',
-  left: 0, right: 0, top: 8, height: 70, skin: whiteSkin,
+  left: 0, right: 0, top: 0, height: 70,
   contents: [
     new Picture({top: 0, left: 20, width: 70, height: 70, url: $.childImage}),
     new Line({
@@ -67,7 +67,7 @@ let DetailsPane = Container.template($ => ({
 }));
 
 let ActivityPane = Column.template($ => ({
-    top: 20, left: 0, right: 0, bottom: 0, skin: backgroundSkin,
+    top: 20, left: 0, right: 0, bottom: 0,
     active: true, state: 0,
     contents: [
       new Label({ left: 0, right: 0, top: 0, bottom: 0, string: "Recent Activity" , style:lg_blackStyle }),
@@ -97,7 +97,7 @@ let BuzzButton = Container.template($ => ({
 
 let DirectionsButton = Container.template($ => ({
   left: 0, right:0, top: 0, bottom: 0, 
-  active: true,state:0,
+  active: true, state:0,
   contents: [
       new Picture({left: -20, right: 0,top: 10, height: 70, url: "assets/directions.png"}),
   ],
@@ -110,7 +110,7 @@ let DirectionsButton = Container.template($ => ({
 }));
 
 export var DetailScreen = Column.template($ => ({
-    top: 0, bottom: 0, left: 0, right: 0, skin: backgroundSkin,
+    top: 0, bottom: 0, left: 0, right: 0, skin: greyBackground,
     active: true, state: 0,
     contents: [
         new HeaderWithBack({

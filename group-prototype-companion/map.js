@@ -95,6 +95,7 @@ function buildMarker(index, centerLat, centerLon) {
 			onCreate(marker) {
 				this.initialized = false;
 				this.data = markerData;
+				this.scalar = 1;
 				
 				/*
 				this.startTime = Date.now();
@@ -131,8 +132,8 @@ function buildMarker(index, centerLat, centerLon) {
 				var planeCenterY = markerPlane.y + markerPlane.height * 0.5;
 
 				var pixelOffsets = coordinateToPixels(markerData.offset.lat, markerData.offset.lon);
-				marker.x = planeCenterX + pixelOffsets[0];
-				marker.y = planeCenterY + pixelOffsets[1];
+				marker.x = planeCenterX + this.scalar * pixelOffsets[0];
+				marker.y = planeCenterY + this.scalar * pixelOffsets[1];
 
 				// Center bottom
 				marker.x -= marker.width * 0.5;
@@ -354,11 +355,21 @@ export var GoogleMapView = Container.template(params => ({
 				this.frame.push(edgeTexture);
 			}
 
+			var scalar = direction > 0 ? 2 : 0.5;
+			this.interval /= scalar;
+
 			var markerPlane = this.view.markerPlane;
-			var marker = markerPlane.first;
+			//var marker = markerPlane.first;
+			var currMarker = markerPlane.first;
+			while (currMarker) {
+				currMarker.behavior.scalar *= scalar;
+				currMarker.behavior.updatePosition(currMarker);
+				currMarker = currMarker.next;
+			}
 
 			// Update marker positions
-			adjustMarker(marker, direction, markerPlane);
+			//adjustMarker(marker, direction, markerPlane);
+
 
 			// Update map scale
 			var currentTexture = this.view.mapTexture;
@@ -583,6 +594,8 @@ export var GoogleMapCenteredView = Container.template(params => ({
 
 			//var markerPlane = this.view.markerPlane;
 			//var marker = markerPlane.first;
+
+			
 
 			//adjustMarker(marker, direction, markerPlane);
 

@@ -34,6 +34,7 @@ class AppBehavior extends Behavior {
 
     pinPressed(index) {
         application.behavior.moveScreenForwardTransition(new DetailScreen({
+        //application.behavior.moveScreenForward(new DetailScreen({
             childName: this.childrenData[index].name, childImage: this.childrenData[index].imageUrl,
             childIndex: index
         }));
@@ -81,23 +82,6 @@ class AppBehavior extends Behavior {
                 movement: {
                     deltaLat: 0.000025,
                     deltaLon: 0.000025,
-                    baseInterval: 4000
-                },
-                interval: 4000,
-                currentTime: 0,
-                lastMoved: Date.now(),
-                onMoving: function(childIndex) {}
-            },
-            { 
-                name: "John", imageUrl: "assets/isaac.png", 
-                color: "#6FCF97",
-                offset: {
-                    lat: -0.002,
-                    lon: 0.0007
-                },
-                movement: {
-                    deltaLat: 0.0000,
-                    deltaLon: 0.0000,
                     baseInterval: 4000
                 },
                 interval: 4000,
@@ -153,6 +137,7 @@ class AppBehavior extends Behavior {
                             if (value == 1) {
                                 if (!add && application.first.name == "searchingAnimationScreen") {
                                     behavior.moveScreenForwardTransition(new EnterCodeScreen({}));
+                                    //behavior.moveScreenForward(new EnterCodeScreen({}));
                                 }   
                                 add = true;
                             }

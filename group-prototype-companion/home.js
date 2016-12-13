@@ -16,10 +16,11 @@ var mapContainer = new GoogleMapView({
 
 var ChildButton = Container.template(params => ({
 	active: true,
-	top: params.top, left: params.left, right: params.right,  height: params.height,
+	top: 0, left: 0, right: 0,  height: 64,
 	Behavior: class extends PressButtonBehavior {
 		onTap(container) {
 			application.behavior.moveScreenForwardTransition(new DetailScreen({
+			//application.behavior.moveScreenForward(new DetailScreen({
 				childName: params.childName, childImage: params.childImage,
 				childIndex: params.childIndex
 			}));
@@ -73,10 +74,9 @@ export var homeContainer = new Column({
 			var index = application.behavior.childrenData.length - 1;
 			var data = application.behavior.childrenData[index];
 			this.childList.add(new ChildButton({
-				top: 0, left: 0, right: 0, height: 64,
+				upSkin: new Skin({borders: { bottom: 1 }, stroke: "#D9D6D6"}),
+				downSkin: pressButtonSkin,
 				childIndex: index, childName: data.name, childImage: data.imageUrl, color: data.color,
-				upSkin: new Skin({fill:"transparent"}),
-				downSkin: pressButtonSkin
 			}));
 			mapContainer.behavior.addMarker();
 		}
@@ -97,16 +97,15 @@ export var homeContainer = new Column({
 					var color = data.color;
 
 					childList.add(new ChildButton({
-						top: 0, left: 0, right: 0, height: 64,
-						childIndex: i, childName: name, childImage: imageUrl, color: color,
-						upSkin: new Skin({fill:"transparent"}),
-						downSkin: pressButtonSkin
+						upSkin: new Skin({borders: { bottom: 1 }, stroke: "#D9D6D6"}),
+						downSkin: pressButtonSkin,
+						childIndex: i, childName: name, childImage: imageUrl, color: color
 					}));
 				}
 
 				var childListContainer = new Container({
-					top: 0, height: 192, left: 0, right: 0,
-					skin: new Skin({fill: "#F4F4F4"})
+					top: 0, height: 196, left: 0, right: 0,
+					skin: new Skin({ fill: "#F4F4F4", borders: { top: 1 }, stroke: "#D9D6D6" })
 				});
 				childListContainer.add(childList);
 

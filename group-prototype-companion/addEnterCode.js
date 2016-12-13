@@ -4,34 +4,59 @@ import { KeyboardTemplate, readinput} from "keyboard_template/main";
 
 import { EnterNameScreen } from "addEnterName";
 import { Push } from "transition";
+import { homeContainer } from 'home';
 //import {WrongcodeScreen} from "wrongcode";
 
 //style
 let backgroundSkin = new Skin({ fill: "#ffffff"});
-let lg_blackStyle = new Style({ font: "22px", color: "#4D4D4D" });
+let largeStyle = new Style({ font: "28px", color: "#4D4D4D" });
+let subStyle = new Style({ font: "22px", color: "#4D4D4D" });
 
 let greySkin = new Skin({ fill: "#F4F4F4"});
 
-var EnterCodePanel = Column.template(params => ({
+
+let successStyle = new Style({ font: '22px', color: '#6FCF97'});
+
+let wrongStyle = new Style({ font: '18px', color: '#BC2F2F'});
+
+var WrongCode = Label.template(params => ({
+    name: "error",
+    left: 0, right: 0, top: 14, style: wrongStyle,
+    string: "Code does not match. Please try again."
+}));
+
+var EnterCodePanel = Container.template(params => ({
     name: "enterCodePanel",
     top: 0, left: 0, right: 0, bottom: 0,
     active: true,
-    //skin: greySkin,
+    skin: greySkin,
     contents: [
-        new Label({ left: 0, right: 0, top: 100, string: "Enter Code for Device #12:" , style:lg_blackStyle }),
-        new KeyboardTemplate(),
+        new Column({
+            name: "inputColumn",
+            left: 0, right: 0, top: 80, 
+            contents: [
+                 new Label({ left: 0, right: 0, top: 0, string: "Pairing", style: subStyle }),
+                 new Label({ left: 0, right: 0, top: 12, string: "Device #A001", style: largeStyle }),
+                 new KeyboardTemplate({ left: 0, right: 0, top: 20, fieldWidth: 140, hint: "Enter code"}),
+            ]
+        }),
         new PressButton({
-            top: 40, left: SCREEN_WIDTH * 0.5 - (78 * 0.5), height: 42, width: 78,
-            upSkin: new Skin({fill:"transparent"}),
+            top: 260, left: SCREEN_WIDTH * 0.5 - (78 * 0.5), height: 42, width: 78,
+            upSkin: new Skin({fill: "white" }),
             downSkin: pressButtonSkin,
             Behavior: class extends PressButtonBehavior {
-                onTap(panel) {
+                onTap(button) {
+                    var inputColumn = button.previous;
                     if (readinput == "123") {
-                        panel.bubble("onSuccessfulCode");
-                        //application.behavior.moveScreenForward(new EnterNameScreen());
+                        button.bubble("onSuccessfulCode");
+                        if (inputColumn.error) {
+                            inputColumn.remove(inputColumn.error);
+                        }
                     } else {
                         trace("WRONG CODE\n");
-                        //application.behavior.moveScreenForward(new WrongcodeScreen());
+                        if (!inputColumn.error) {
+                            inputColumn.add(new WrongCode());
+                        }
                     }
                 }
 
@@ -39,7 +64,7 @@ var EnterCodePanel = Column.template(params => ({
             },
             contents: [
                 new Picture({
-                  top: 0, left: 0, right:0, bottom: 0,height: 42, width: 78,
+                  top: 0, left: 0, right: 0, bottom: 0,height: 42, width: 78,
                   url: "assets/enter.png"
                 })
             ]
@@ -51,15 +76,15 @@ var EnterNamePanel = Column.template(params=> ({
     name: "enterNamePanel",
     top: 0, bottom: 0, left: 0, right: 0,
     active: true,
-    //skin: greySkin,
+    skin: greySkin,
     contents: [
-        new Label({ left: 0, right: 0, top: 100, string: "You have successfully connected" , style:lg_blackStyle }),
-        new Label({ left: 0, right: 0, top: 12, string: "with Device #A001." , style:lg_blackStyle }),
-        new Label({ left: 0, right: 0, top: 12, string: "Please enter child name." , style:lg_blackStyle }),
-        new KeyboardTemplate(),
+        new Picture({ top: 30, width: 140, height: 140, left: SCREEN_WIDTH * 0.5 - 70, url: "assets/paired.png"}),
+        new Label({ left: 0, right: 0, top: 20, string: "Device successfully paired!" , style: successStyle }),
+        //new Label({ left: 0, right: 0, top: 12, string: "Device #A001" , style: largeStyle }),
+        new KeyboardTemplate({ left: 0, right: 0, top: 20, fieldWidth: 260, hint: "Enter child name"}),
         new PressButton({
-          top: 40, left: SCREEN_WIDTH * 0.5 - (78 * 0.5), height: 42, width: 78,
-          upSkin: new Skin({fill:"transparent"}),
+          top: 20, left: SCREEN_WIDTH * 0.5 - (78 * 0.5), height: 42, width: 78,
+          upSkin: new Skin({fill:"white"}),
           downSkin: pressButtonSkin,
           Behavior: class extends PressButtonBehavior {
             onTap(container) {
@@ -87,7 +112,7 @@ export var EnterCodeScreen = Column.template($ => ({
         onCreate(screen) {
             this.screen = screen;
             this.screen.add(new HeaderWithBack({
-                title: "Add Children", transitionBack: true,
+                title: "Pair New Device", transitionBack: true,
             }));
             this.screen.add(new EnterCodePanel({}));
         }
@@ -99,8 +124,8 @@ export var EnterCodeScreen = Column.template($ => ({
         onNamed() {
             var home = application.behavior.screenHistory[0];
             application.behavior.childrenData.push({ 
-                name: "Kelly", imageUrl: "assets/sarah.png", 
-                color: "#D399E8",
+                name: readinput, imageUrl: "assets/isaac.png", 
+                color: "#6FCF97",
                 offset: {
                     lat: 0.0000,
                     lon: 0.0000
@@ -115,8 +140,15 @@ export var EnterCodeScreen = Column.template($ => ({
                 lastMoved: Date.now(),
                 onMoving: function(childIndex) {}
             });
+
+
             home.behavior.addMarker();
-            application.run(new Push(), this.screen, home, { duration: 300, direction: "left" });
+            //KEYBOARD.hide();
+            application.empty();
+            application.add(home);
+            //application.replace(this.screen, home);
+
+            //application.run(new Push(), this.screen, home, { duration: 300, direction: "left" });
         }
     }
 }));
